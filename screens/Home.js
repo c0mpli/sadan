@@ -38,7 +38,7 @@ export default function Home() {
     });
     let response;
     try {
-      response = await axios.post(`${BACKEND_URL}/recommend`, formData, {
+      response = await axios.post(`http://127.0.0.1:5001/recommend`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

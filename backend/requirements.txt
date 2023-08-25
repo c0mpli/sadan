@@ -3,3 +3,4 @@ pandas
 opencv-python
 numpy
 requests==2.31.0
+Flask-Cors==1.10.3

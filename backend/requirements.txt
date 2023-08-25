@@ -1,6 +1,4 @@
 flask==2.2.3
 pandas
-requests
-os
 cv2
 numpy

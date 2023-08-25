@@ -2,3 +2,4 @@ flask==2.2.3
 pandas
 opencv-python
 numpy
+requests==2.31.0

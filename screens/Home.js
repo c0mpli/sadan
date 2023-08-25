@@ -9,6 +9,8 @@ import * as ImagePicker from "expo-image-picker";
 import { useNavigation } from "@react-navigation/native";
 import LottieView from "lottie-react-native";
 
+const BACKEND_URL = "http://192.168.1.83:5001";
+
 export default function Home() {
   const navigation = useNavigation();
   const [selectedImage, setSelectedImage] = useState(null);
@@ -36,15 +38,11 @@ export default function Home() {
     });
     let response;
     try {
-      response = await axios.post(
-        "https://image-comparison-api.herokuapp.com/api/v1/image",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      response = await axios.post(`${BACKEND_URL}/recommend`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
     } catch (error) {
       alert("Something went wrong. Please try again.");
       console.log(error);

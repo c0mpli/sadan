@@ -5,7 +5,6 @@ import requests
 from flask_cors import CORS, cross_origin
 import cv2
 import numpy as np
-from matplotlib import pyplot as plt
 from datetime import datetime
 import math
 from PIL import Image

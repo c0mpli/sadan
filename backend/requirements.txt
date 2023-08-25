@@ -1,5 +1,4 @@
-flask
-pickle
+flask==2.2.3
 pandas
 requests
 os

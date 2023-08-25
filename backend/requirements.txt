@@ -1,4 +1,4 @@
 flask==2.2.3
 pandas
-cv2
+opencv-python
 numpy

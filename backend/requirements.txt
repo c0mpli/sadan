@@ -1,0 +1,7 @@
+flask
+pickle
+pandas
+requests
+os
+cv2
+numpy

@@ -3,6 +3,10 @@
 # dependencies
 node_modules/
 
+#backend
+backend/dataset/
+.env
+
 # Expo
 .expo/
 dist/

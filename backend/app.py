@@ -302,6 +302,7 @@ def get_data():
             file.save(os.path.join(UPLOAD_FOLDER, filename))
             path = os.path.join(UPLOAD_FOLDER, filename)
             ans = recommend_image(path)
+            ans = ans[1:]
             return jsonify({"prediction": ans}), 200
         except requests.exceptions.RequestException as e:
             return jsonify({'error': 'Failed to fetch data from the external API'}), 500
@@ -309,4 +310,4 @@ def get_data():
         return "Invalid file extension. Only JPG, JPEG, PNG, and GIF are allowed.", 400
 
 if __name__ == '__main__':
-    app.run(host='localhost',debug=True, port=5001)
+    app.run(debug=True, port=5001)

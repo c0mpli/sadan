@@ -31,7 +31,7 @@ export default function Home() {
   const submitImageAsync = async () => {
     setAfterImageLoaded(false);
     const formData = new FormData();
-    formData.append("image", {
+    formData.append("file", {
       uri: selectedImage,
       name: "image.jpg",
       type: "image/jpeg",
@@ -39,7 +39,7 @@ export default function Home() {
     let response;
     try {
       response = await axios.post(
-        `http://localhost:5001/recommend/`,
+        `https://doctorine-flask.serveo.net/recommend`,
         formData,
         {
           headers: {
@@ -54,7 +54,7 @@ export default function Home() {
       setAfterImageLoaded(true);
       navigation.navigate("Results", {
         beforeImage: selectedImage,
-        afterImage: response ? response?.data.output : selectedImage,
+        afterImage: response ? response?.data.prediction : selectedImage,
         afterImageLoaded: afterImageLoaded,
       });
     }

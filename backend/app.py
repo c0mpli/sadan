@@ -176,11 +176,46 @@ def getOutlineImg(img):
 
 def selectWall(outline_img, position):
     h, w = outline_img.shape[:2]
+    
+    # Clamp the position coordinates to be within the image bounds
+    position = (max(0, min(position[0], w - 1)), max(0, min(position[1], h - 1)))
+    
     wall = outline_img.copy()
-    scaled_mask = resizeAndPad(outline_img, (h+2,w+2), 255)
-    cv2.floodFill(wall, scaled_mask, position, 255)   # todo: can be optimised later
+    scaled_mask = resizeAndPad(outline_img, (h+2, w+2), 255)
+    
+    # Check dimensions and position before flood fill
+    # print("Outline Image Dimensions:", outline_img.shape)
+    # print("Position:", position)
+    # print("Scaled Mask Dimensions:", scaled_mask.shape)
+    
+    cv2.floodFill(wall, scaled_mask, position, 255)   # todo: can be optimized later
     cv2.subtract(wall, outline_img, wall) 
     return wall
+
+# Call the function with your image and position
+# outline_img = ...  # Load or create your outline image
+# position = (x, y)  # Replace with the desired seed point
+# selected_wall = selectWall(outline_img, position)
+
+
+
+
+
+
+
+
+# Call the function with your image and position
+# outline_img = ...  # Load or create your outline image
+# position = (x, y)  # Replace with the desired seed point
+# selected_wall = selectWall(outline_img, position)
+
+
+
+
+
+
+
+
 
 
 def changeColor(image_path, position, new_color, pattern_image):
@@ -196,8 +231,6 @@ def changeColor(image_path, position, new_color, pattern_image):
     
     final_img = mergeImages(img, colored_image, selected_wall)
     
-    end = start = datetime.timestamp(datetime.now())
-    print (end-start)
     return saveImage(image_name, final_img)
     # showImages(original_img, colored_image, selected_wall, final_img)
 
@@ -206,17 +239,17 @@ def changeColor(image_path, position, new_color, pattern_image):
 data = []
 def recommend_image(image_path):
     dom_color = get_colors(image_path, 20)
-    a = dom_color[:3]
-    while(len(a)<4):
+    a = dom_color[:5]
+    while(len(a)<6):
         a.append('')
         data.append(a)
-    
     color_palette_data = []
     for palette in data:
         color_dict = {
             'color1': palette[0],
             'color2': palette[1],
-            'color3': palette[2]
+            'color3': palette[2],
+            'color4': palette[3],
         }
         color_palette_data.append(color_dict)
 
@@ -238,14 +271,21 @@ def recommend_image(image_path):
     df['color3_green'] = df['color3'].apply(lambda x: x[1])
     df['color3_blue'] = df['color3'].apply(lambda x: x[2])
 
+    df['color4_red'] = df['color4'].apply(lambda x: x[0])
+    df['color4_green'] = df['color4'].apply(lambda x: x[1])
+    df['color4_blue'] = df['color4'].apply(lambda x: x[2])
+
+
+
     # Drop the original RGB columns
-    df = df.drop(['color1', 'color2', 'color3'], axis=1)
+    df = df.drop(['color1', 'color2', 'color3','color4'], axis=1)
 
     X = df[['color2_red', 'color2_green', 'color2_blue',
-        'color3_red', 'color3_green', 'color3_blue']]
+        'color3_red', 'color3_green', 'color3_blue','color4_red','color4_green','color4_blue']]
     
     y_pred = model.predict(X)
-    return changeColor(image_path, (300, 100), [y_pred[0][0], y_pred[0][1], y_pred[0][2]], None)
+    print(y_pred)
+    return changeColor(image_path, (300, 100), [y_pred[len(y_pred)-1][0], y_pred[len(y_pred)-1][1], y_pred[len(y_pred)-1][2]], None)
     
 
 @app.route('/recommend', methods=['POST'])

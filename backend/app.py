@@ -309,4 +309,4 @@ def get_data():
         return "Invalid file extension. Only JPG, JPEG, PNG, and GIF are allowed.", 400
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(host='localhost',debug=True, port=5001)

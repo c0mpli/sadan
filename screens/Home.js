@@ -39,7 +39,7 @@ export default function Home() {
     let response;
     try {
       response = await axios.post(
-        `http://127.0.0.1:5001/recommend/`,
+        `http://localhost:5001/recommend/`,
         formData,
         {
           headers: {
